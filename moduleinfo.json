@@ -1,0 +1,16 @@
+{
+    "name": "Modified CSV Importer",
+    "archiveName": "robinthehood/modified-csv-importer",
+    "sourceDir": "new_files",
+    "version": "1.0.0",
+    "shortDescription": "Kurzbeschreibung",
+    "description": "Beschreibung",
+    "developer": "Robin Wieschendorf",
+    "developerWebsite": "https://www.sumw.de",
+    "website": "https://www.sumw.de",
+
+    "require": {
+        "composer/autoload": "^1.0.0",
+        "robinthehood/modified-orm": "^1.0.0"
+    }
+}
