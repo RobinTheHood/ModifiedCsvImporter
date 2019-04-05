@@ -157,7 +157,7 @@ class CsvImporter
             $categoryDescription = $categoryDescriptions[$n];
             $category = new Category();
             $category->setParentId($parentId);
-            $categoryId = $categoryRepo->insert($category);
+            $categoryId = $categoryRepo->insert($category, false);
             $categoryDescription->setCategoryId($categoryId);
             $categoryDescriptionRepo->insert($categoryDescription);
             $parentId = $categoryId;
