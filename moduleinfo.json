@@ -2,7 +2,7 @@
     "name": "Modified CSV Importer",
     "archiveName": "robinthehood/modified-csv-importer",
     "sourceDir": "new_files",
-    "version": "1.0.0",
+    "version": "auto",
     "shortDescription": "Kurzbeschreibung",
     "description": "Beschreibung",
     "developer": "Robin Wieschendorf",
@@ -12,5 +12,12 @@
     "require": {
         "composer/autoload": "^1.0.0",
         "robinthehood/modified-orm": "^1.0.0"
-    }
+    },
+
+    "modifiedCompatibility": [
+        "2.0.3.0",
+        "2.0.4.0",
+        "2.0.4.1",
+        "2.0.4.2"
+    ]
 }
