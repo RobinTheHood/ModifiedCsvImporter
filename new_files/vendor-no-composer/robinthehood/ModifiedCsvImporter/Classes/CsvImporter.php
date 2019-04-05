@@ -18,6 +18,7 @@ use RobinTheHood\ModifiedOrm\Repositories\ManufacturerInfoRepository;
 use RobinTheHood\ModifiedOrm\Repositories\ProductTagOptionRepository;
 use RobinTheHood\ModifiedOrm\Repositories\ProductTagValueRepository;
 use RobinTheHood\ModifiedOrm\Repositories\ProductTagRepository;
+use RobinTheHood\ModifiedOrm\Repositories\ProductVpeRepository;
 
 use RobinTheHood\ModifiedCsvImporter\Classes\Task;
 
@@ -31,6 +32,7 @@ class CsvImporter
     protected $manufacturerCache = [];
     protected $productTagOptionCache = [];
     protected $productTagValueCache = [];
+    protected $productVpeCache = [];
 
     protected $start;
     protected $end;
@@ -50,7 +52,7 @@ class CsvImporter
         if ($this->task) {
             return $this->task;
         }
-        
+
         $this->task = new Task();
         $this->task->setId('001');
         return $this->task;
@@ -348,5 +350,33 @@ class CsvImporter
             $repo->insert($productTag);
             return $productTag;
         }
+    }
+
+    public function createOrGetProductVpeHashed($productVpe, &$productVpeCache)
+    {
+        $hash = $productVpe->getName();
+        $productVpeHashed = $productVpeCache[$hash];
+        if ($productVpeHashed) {
+            //Debug::out('ShippingStatus cache: ' . $hash);
+            return $productVpeHashed;
+        }
+        Debug::out('ProductVpe no-cache: ' . $hash);
+        $productVpe = $this->createOrGetProductVpe($productVpe);
+        $productVpeCache[$hash] = $productVpe;
+        return $productVpe;
+    }
+
+    public function createOrGetProductVpe($productVpe)
+    {
+        $repo = new ProductVpeRepository();
+        $name = $productVpe->getName();
+        $languageId = $productVpe->getLanguageId();
+        $productVpes = $repo->getAllByName($name, $languageId);
+        if ($productVpes[0]) {
+            return $productVpes[0];
+        }
+
+        $repo->insert($productVpe);
+        return $productVpe;
     }
 }
