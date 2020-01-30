@@ -14,6 +14,9 @@
         "robinthehood/modified-orm": "^1.0.0"
     },
 
+    "category": "library",
+    "price": "free",
+    
     "modifiedCompatibility": [
         "2.0.3.0",
         "2.0.4.0",
