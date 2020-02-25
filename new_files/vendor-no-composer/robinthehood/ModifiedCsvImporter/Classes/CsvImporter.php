@@ -379,4 +379,25 @@ class CsvImporter
         $repo->insert($productVpe);
         return $productVpe;
     }
+
+    public function deleteAllProductToCategorysFromProduct($product)
+    {
+        $repo = new ProductToCategoryRepository();
+        $productToCategorys = $repo->getAllByProductId($product->getId());
+        foreach($productToCategorys as $productToCategory) {
+            $repo->delete($productToCategory);
+        }
+    }
+
+    public function deleteAllTagsFromProduct($product)
+    {
+        $repo = new ProductTagRepository();
+        // echo $product->getId();
+        $productTags = $repo->getAllByProductId($product->getId());
+        // var_dump($productTags);
+        // die('test');
+        foreach($productTags as $productTag) {
+            $repo->delete($productTag);
+        }
+    }
 }
