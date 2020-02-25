@@ -81,6 +81,7 @@ class CsvImporter
         $this->start = $start;
         $this->end = $end;
 
+        $this->preProcess();
 
         $count = 0;
 
@@ -110,13 +111,19 @@ class CsvImporter
         Debug::out('Done');
     }
 
+    public function preProcess() {}
+
     public function convert($str)
     {
         return iconv($this->csvEncodig, 'UTF-8', $str);
     }
 
-    public function createOrGetCategoryHashed($categoryDescriptions, &$categoryCache)
+    public function createOrGetCategoryHashed($categoryDescriptions, &$categoryCache = null)
     {
+        if (!$categoryCache) {
+            $categoryCache = &$this->categoryCache;
+        }
+
         $hash = $this->getCategoryPathHash($categoryDescriptions);
         $category = $categoryCache[$hash];
         if ($category) {
@@ -194,8 +201,12 @@ class CsvImporter
         }
     }
 
-    public function createOrGetShippingStatusHashed($shippingStatus, &$shippingStatusCache)
+    public function createOrGetShippingStatusHashed($shippingStatus, &$shippingStatusCache = null)
     {
+        if (!$shippingStatusCache) {
+            $shippingStatusCache = &$this->shippingStatusCache;
+        }
+
         $hash = $shippingStatus->getName();
         $shippingStatusHashed = $shippingStatusCache[$hash];
         if ($shippingStatusHashed) {
@@ -235,8 +246,12 @@ class CsvImporter
         return false;
     }
 
-    public function createOrGetManufacturerHashed($manufacturer, $manufacturerInfos, &$manufacturerCache)
+    public function createOrGetManufacturerHashed($manufacturer, $manufacturerInfos, &$manufacturerCache = null)
     {
+        if (!$manufacturerCache) {
+            $manufacturerCache = &$this->manufacturerCache;
+        }
+
         $hash = $manufacturer->getName();
         $manufacturerHashed = $manufacturerCache[$hash];
         if ($manufacturerHashed) {
@@ -281,8 +296,12 @@ class CsvImporter
         return false;
     }
 
-    public function createOrGetProductTagOptionHashed($productTagOption, &$productTagOptionCache)
+    public function createOrGetProductTagOptionHashed($productTagOption, &$productTagOptionCache = null)
     {
+        if (!$productTagOptionCache) {
+            $productTagOptionCache = &$this->productTagOptionCache;
+        }
+
         $hash = $productTagOption->getName();
         $productTagOptionHashed = $productTagOptionCache[$hash];
         if ($productTagOptionHashed) {
@@ -309,8 +328,12 @@ class CsvImporter
         return $productTagOption;
     }
 
-    public function createOrGetProductTagValueHashed($productTagValue, &$productTagValueCache)
+    public function createOrGetProductTagValueHashed($productTagValue, &$productTagValueCache = null)
     {
+        if (!$productTagValueCache) {
+            $productTagValueCache = &$this->productTagValueCache;
+        }
+
         $hash = $productTagValue->getName() . '_' . $productTagValue->getProductTagOptionId();
         $productTagValueHashed = $productTagValueCache[$hash];
         if ($productTagValueHashed) {
@@ -352,8 +375,12 @@ class CsvImporter
         }
     }
 
-    public function createOrGetProductVpeHashed($productVpe, &$productVpeCache)
+    public function createOrGetProductVpeHashed($productVpe, &$productVpeCache = null)
     {
+        if (!$productVpeCache) {
+            $productVpeCache = &$this->productVpeCache;
+        }
+
         $hash = $productVpe->getName();
         $productVpeHashed = $productVpeCache[$hash];
         if ($productVpeHashed) {
