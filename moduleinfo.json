@@ -4,8 +4,8 @@
 
     "sourceDir": "src",
     "version": "auto",
-    "shortDescription": "Kurzbeschreibung",
-    "description": "Beschreibung",
+    "shortDescription": "Basisbibliothek für robuste einfache CSV-Importe in modified Shop Modulen",
+
     "developer": "Robin Wieschendorf",
     "developerWebsite": "https://www.sumw.de",
     "website": "https://www.sumw.de",
