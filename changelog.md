@@ -3,10 +3,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) 
 
 ## [Unreleased]
 
+## [1.5.0] - 2026-04-21
+### Added
+- Comprehensive usage guide documentation (docs/usag.md) with step-by-step instructions
+
 ## [1.4.0] - 2026-04-21
 ### Added
 - Documentation: README and usage guide for developers
-- Support for additional modified versions in compatibility list
+- Support for additional modified versions in compatibility list up to 3.3.0
 
 ### Changed
 - Refactored module structure to use MMLC src-mmlc feature for better organization
@@ -14,7 +18,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) 
 ### Fixed
 - Fixed missing task property declaration
 - Fixed missing processRow() base method
-- Fixed code style issues (spacing after control structures)
 
 ## [1.3.0] - 2020-05-19
 ### Added
@@ -49,7 +52,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) 
 - Helper methods for category, shipping status, manufacturer, and product tag handling
 - Support for cached lookups to improve import performance
 
-[Unreleased]: https://github.com/RobinTheHood/modified-csv-importer/compare/1.4.0...HEAD
+[Unreleased]: https://github.com/RobinTheHood/modified-csv-importer/compare/1.5.0...HEAD
+[1.5.0]: https://github.com/RobinTheHood/modified-csv-importer/compare/1.4.0...1.5.0
 [1.4.0]: https://github.com/RobinTheHood/modified-csv-importer/compare/1.3.0...1.4.0
 [1.3.0]: https://github.com/RobinTheHood/modified-csv-importer/compare/1.2.0...1.3.0
 [1.2.0]: https://github.com/RobinTheHood/modified-csv-importer/compare/1.1.0...1.2.0
