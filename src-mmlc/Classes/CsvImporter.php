@@ -1,12 +1,10 @@
 <?php
+
 namespace RobinTheHood\ModifiedCsvImporter\Classes;
 
 use RobinTheHood\ModifiedOrm\Core\Debug;
-use RobinTheHood\ModifiedOrm\Models\Product;
-use RobinTheHood\ModifiedOrm\Models\ProductDescription;
 use RobinTheHood\ModifiedOrm\Models\ProductToCategory;
 use RobinTheHood\ModifiedOrm\Models\Category;
-use RobinTheHood\ModifiedOrm\Models\CategoryDescription;
 use RobinTheHood\ModifiedOrm\Models\ProductTag;
 use RobinTheHood\ModifiedOrm\Repositories\ProductRepository;
 use RobinTheHood\ModifiedOrm\Repositories\CategoryRepository;
@@ -19,13 +17,13 @@ use RobinTheHood\ModifiedOrm\Repositories\ProductTagOptionRepository;
 use RobinTheHood\ModifiedOrm\Repositories\ProductTagValueRepository;
 use RobinTheHood\ModifiedOrm\Repositories\ProductTagRepository;
 use RobinTheHood\ModifiedOrm\Repositories\ProductVpeRepository;
-
 use RobinTheHood\ModifiedCsvImporter\Classes\Task;
 
 class CsvImporter
 {
     protected $delimiter = ';';
     protected $csvEncodig = 'UTF-8';
+    protected $task;
 
     protected $categoryCache = [];
     protected $shippingStatusCache = [];
@@ -62,7 +60,7 @@ class CsvImporter
     {
         $linecount = 0;
         $handle = fopen($filePath, "r");
-        while (!feof($handle)){
+        while (!feof($handle)) {
             $line = fgets($handle);
             $linecount++;
         }
@@ -111,7 +109,14 @@ class CsvImporter
         Debug::out('Done');
     }
 
-    public function preProcess() {}
+    public function preProcess()
+    {
+    }
+
+    public function processRow($row, $lineNumber)
+    {
+        throw new \RuntimeException('Method processRow() must be implemented in subclass.');
+    }
 
     public function convert($str)
     {
@@ -140,7 +145,7 @@ class CsvImporter
     public function getCategoryPathHash($categoryDescriptions)
     {
         $hash = '';
-        foreach($categoryDescriptions as $categoryDescription) {
+        foreach ($categoryDescriptions as $categoryDescription) {
             $hash .= $categoryDescription->getName() . '_';
         }
         return $hash;
@@ -149,7 +154,7 @@ class CsvImporter
     public function createOrGetCategory($categoryDescriptions)
     {
         $parentId = 0;
-        for ($i=0; $i<count($categoryDescriptions); $i++) {
+        for ($i = 0; $i < count($categoryDescriptions); $i++) {
             $categoryDescription = $categoryDescriptions[$i];
             $name = $categoryDescription->getName();
             $languageId = $categoryDescription->getLanguageId();
@@ -162,7 +167,7 @@ class CsvImporter
 
         $categoryRepo = new CategoryRepository();
         $categoryDescriptionRepo = new CategoryDescriptionRepository();
-        for ($n=$i; $n<count($categoryDescriptions); $n++) {
+        for ($n = $i; $n < count($categoryDescriptions); $n++) {
             $categoryDescription = $categoryDescriptions[$n];
             $category = new Category();
             $category->setParentId($parentId);
@@ -181,7 +186,7 @@ class CsvImporter
     {
         $repo = new CategoryDescriptionRepository();
         $categoryDescriptions = $repo->getAllByName($name, $languageId);
-        foreach($categoryDescriptions as $categoryDescription) {
+        foreach ($categoryDescriptions as $categoryDescription) {
             $category = $categoryDescription->getCategory();
             if ($category->getParentId() == $parentId) {
                 return $category;
@@ -275,7 +280,7 @@ class CsvImporter
         $id = $repo->insert($manufacturer);
 
         $repo = new ManufacturerInfoRepository();
-        foreach($manufacturerInfos as $manufacturerInfo) {
+        foreach ($manufacturerInfos as $manufacturerInfo) {
             $manufacturerInfo->setManufacturerId($id);
             $repo->insert($manufacturerInfo);
         }
@@ -411,7 +416,7 @@ class CsvImporter
     {
         $repo = new ProductToCategoryRepository();
         $productToCategorys = $repo->getAllByProductId($product->getId());
-        foreach($productToCategorys as $productToCategory) {
+        foreach ($productToCategorys as $productToCategory) {
             $repo->delete($productToCategory);
         }
     }
@@ -423,7 +428,7 @@ class CsvImporter
         $productTags = $repo->getAllByProductId($product->getId());
         // var_dump($productTags);
         // die('test');
-        foreach($productTags as $productTag) {
+        foreach ($productTags as $productTag) {
             $repo->delete($productTag);
         }
     }
